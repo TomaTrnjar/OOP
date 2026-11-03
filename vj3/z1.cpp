@@ -2,8 +2,9 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
-void input_vector(vector<int>& v){
+void input_vector(vector<int>& v) {
 	int n;
 	while (1) {
 		cout << "Unesite cijeli broj u vektor (0 za kraj): ";
@@ -16,7 +17,7 @@ void input_vector(vector<int>& v){
 		}
 	}
 }
-void print_vector(const vector<int>& v){
+void print_vector(const vector<int>& v) {
 	for (int i = 0; i < v.size(); i++) {
 		cout << v[i] << " ";
 	}
@@ -24,34 +25,47 @@ void print_vector(const vector<int>& v){
 int main() {
 	vector<int> v1;
 	input_vector(v1);
-	cout << endl << "Ispis unesenog vektora:";
+	int k;
+	while (1) {
+		cout << "Unesite k:";
+		cin >> k;
+		if (k > 0) {
+			break;
+		}
+	}
+	auto negativan = [](int x) {
+		return x < 0;
+	};
+
+
+	auto c = std::count_if(v1.begin(), v1.end(), negativan);
+	cout << "Negativnih: " << c<<endl;
+
+	auto visekratnik = [k](int x) {
+		return x % k == 0;
+	};
+
+	auto it = find_if(v1.begin(), v1.end(), visekratnik);
+
+	if (it != v1.end()) {
+		cout << "Prvi visekratnik: " << *it << endl;
+		cout << "Njegova pozicija: " << it - v1.begin() << endl;
+	}
+	else {
+		cout << "Nema visekratnika broja " << k << endl;
+	}
+
+	auto mx = std::max_element(v1.begin(), v1.end());
+	auto mn = std::min_element(v1.begin(), v1.end());
+	cout<<"Max: "<< *mx << " Min:" << *mn<<endl;
+	cout << "Max pozicija " << mx - v1.begin()<<endl;
+	cout << "Min pozicija " << mn - v1.begin() << endl;
+
+	v1.erase(std::remove_if(v1.begin(), v1.end(),
+		[k](int x) { return x % k == 0; }),
+		v1.end());
+
+	cout << "Ispis vektora bez visekratnika: ";
 	print_vector(v1);
 
-	cout <<endl<<"Obrnuto:";
-	for (auto j = v1.rbegin(); j != v1.rend(); j++) {
-		cout << *j << " ";
-	}
-	cout << endl;
-
-	vector <int> v3;
-	for (int i = 1; i <= 20; i++) {
-		v3.push_back(i);
-		cout << "Size: " <<v3.size() << " /  Capacity:"
-			<< v3.capacity() <<endl;
-	}
-
-	cout << endl << endl << "Novi vektor sa reserve(100)" << endl;
-
-	vector <int> v4;
-	v4.reserve(100);
-	for (int i = 1; i <= 20; i++) {
-		v4.push_back(i);
-		cout << "Size: " << v4.size() << " /  Capacity:"
-			<< v4.capacity() << endl;
-	}
-	v4.shrink_to_fit();
-	cout <<"Finalni capacity "<<v4.capacity();
-
-
-	return 0;
 }
