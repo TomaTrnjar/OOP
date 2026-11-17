@@ -2,11 +2,29 @@
 
 #include <iostream>
 #include <string>
-
-// ovdje napisite klasu Ticket
-
+using namespace std;
+class Ticket{
+private:
+    string naziv;
+    int id;
+    static int br;
+public:
+    Ticket(string naziv){
+        br++;
+        this->naziv=naziv;
+        id=br;
+    }
+    static int issued(){
+        return br;
+    }
+    int get_id(){
+        return id;
+    }
+};
+    int Ticket::br = 0;
 int main()
 {
+
     std::cout << Ticket::issued() << '\n';
     Ticket t1("Shame, Zagreb");
     Ticket t2("Shame, Zagreb");
