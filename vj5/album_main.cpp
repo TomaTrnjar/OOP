@@ -1,27 +1,69 @@
-// Vjezba 5, zadatak 3: napisite strukturu Song i klasu Album iznad main.
 
 #include <iostream>
 #include <string>
 #include <vector>
+using namespace std;
+struct Song {
+    string title;
+    string artist;
+    int seconds;
+    Song(string t, string a, int sec) {
+        title = t;
+        artist = a;
+        seconds = sec;
+    }
+};
+class Album {
+private:
+    string title;
+    int year;
+    vector<Song> songs;
+public:
+    Album(string t, int y, Song s) {
+        title = t;
+        year = y;
+        songs.push_back(s);
+    }
+    bool add(Song s) {
+        for (const Song& x : songs) {
+            if (x.title == s.title) {
+                return false;
+            }
+        }
 
-// ovdje napisite Song i Album
+        songs.push_back(s);
+        return true;
+    }
+    int duration() const {
+        int br = 0;
+
+        for (const Song& x : songs) {
+            br += x.seconds;
+        }
+        return br;
+    }
+    void print() const {
+        cout << title << " (" << year << "), "
+             << songs.size() << " pjesme, "
+             << duration() / 60 << ":";
+        int sekunde = duration() % 60;
+        cout << sekunde << endl;
+
+        int i = 1;
+        for (const Song& x : songs) {
+            cout << "  " << i << ". " << x.title << endl;
+            i++;
+        }
+    }
+};
 
 int main()
 {
     Album a("Sol Invictus", 2015, {"Sol Invictus", "Faith No More", 156});
     a.add({"Superhero", "Faith No More", 315});
     a.add({"Matador", "Faith No More", 368});
-    std::cout << a.add({"Superhero", "Faith No More", 315}) << '\n';   // vec postoji
+    cout << a.add({"Superhero", "Faith No More", 315}) << '\n';
     a.print();
+
     return 0;
 }
-
-/*
-Ocekivani ispis:
-
-    0
-    Sol Invictus (2015), 3 pjesme, 13:59
-      1. Sol Invictus
-      2. Superhero
-      3. Matador
-*/
