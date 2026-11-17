@@ -1,22 +1,19 @@
-// Vjezba 5: klasa Clip ne radi ispravno.
-// Ispravite je tako da program ispise: Concrete (Shame): 180 s
-
 #include <iostream>
 #include <string>
-
 class Clip {
     int length;
     int start;
     int end;
     std::string name;
     const int max_length;
+
 public:
     Clip(const std::string& name, int s, int e)
-        : start(s), end(e), length(end - start)
+        : start(s), end(e), length(end - start),
+          name(name), max_length(600)
     {
-        name = name;
-        max_length = 600;
     }
+
     void print() const {
         std::cout << name << ": " << length << " s\n";
     }
