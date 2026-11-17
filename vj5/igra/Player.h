@@ -1,12 +1,16 @@
-#pragma once      // header se ukljucuje samo jednom, iako ga ukljucuje vise datoteka
+
+#pragma once
 
 #include <string>
-#include "Level.h"
+
+class Level;
 
 class Player {
-    // data memberi
+private:
+    std::string name;
+    Level* level;
 
 public:
-    // konstruktor
-    void print() const;      // ime i stanje levela u kojem je igrac
+    Player(const std::string& name, Level* level);
+    void print() const;
 };
