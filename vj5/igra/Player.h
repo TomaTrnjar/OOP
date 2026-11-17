@@ -1,0 +1,12 @@
+#pragma once      // header se ukljucuje samo jednom, iako ga ukljucuje vise datoteka
+
+#include <string>
+#include "Level.h"
+
+class Player {
+    // data memberi
+
+public:
+    // konstruktor
+    void print() const;      // ime i stanje levela u kojem je igrac
+};
