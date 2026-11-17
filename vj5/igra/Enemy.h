@@ -1,8 +1,7 @@
-#pragma once      // header se ukljucuje samo jednom, iako ga ukljucuje vise datoteka
+
+#pragma once
 
 class Enemy {
-    // data memberi
-
 public:
-    // konstruktor (deklaracija; definicija je u Enemy.cpp)
+    Enemy();
 };
