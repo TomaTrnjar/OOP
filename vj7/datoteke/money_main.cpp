@@ -1,29 +1,69 @@
-// Vjezba 7, zadatak 2: napisite klasu Money i operatore iznad main.
-// Datoteka racun.txt mora biti u mapi iz koje se program pokrece.
-
 #include <fstream>
 #include <iostream>
 #include <string>
+using namespace std;
 
-// ovdje napisite klasu Money i operatore
+class Money {
+	int cents;
+public:
+	Money(int euros = 0, int c = 0) {
+		cents = euros * 100 + c;
+	}
+	int euros() const {
+		return cents / 100;
+	}
+	int centi() const {
+		return cents % 100;
+	}
+	Money& operator+=(const Money& other) {
+		cents += other.cents;
+		return *this;
+	}
+	bool operator<(const Money& other) const {
+		return cents < other.cents;
+	}
+};
+
+Money operator+(Money a, const Money& b) {
+	a += b;
+	return a;
+}
+
+std::ostream& operator<<(std::ostream& os, const Money& m) {
+	os << m.euros() << '.';
+	if (m.centi() < 10)
+		os << '0';
+	os << m.centi() << " EUR";
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Money& m) {
+	int e, c;
+	char dot;
+	if (is >> e >> dot >> c && dot == '.')
+		m = Money(e, c);
+	else
+		is.setstate(std::ios::failbit);
+	return is;
+}
 
 int main()
 {
     Money a(1, 5);
     Money b(0, 95);
-    std::cout << a << " + " << b << " = " << a + b << '\n';
+    cout << a << " + " << b << " = " << a + b << '\n';
 
-    std::ifstream in("racun.txt");
+    ifstream in("racun.txt");
     if (!in) {
-        std::cout << "Datoteka racun.txt ne postoji\n";
+        cout << "Datoteka racun.txt ne postoji\n";
         return 1;
     }
 
-    std::string item;
+    string item;
     Money price;
     Money total;
     Money max_price;
-    std::string max_item;
+    string max_item;
     int count = 0;
     while (in >> item >> price) {
         total += price;
@@ -34,20 +74,10 @@ int main()
         ++count;
     }
     if (!in.eof())
-        std::cout << "Neispravan zapis: " << item << '\n';
+        cout << "Neispravan zapis: " << item << '\n';
 
-    std::cout << "Stavki: " << count << '\n';
-    std::cout << "Ukupno: " << total << '\n';
-    std::cout << "Najskuplje: " << max_item << ' ' << max_price << '\n';
+    cout << "Stavki: " << count << '\n';
+    cout << "Ukupno: " << total << '\n';
+    cout << "Najskuplje: " << max_item << ' ' << max_price << '\n';
     return 0;
 }
-
-/*
-Ocekivani ispis:
-
-    1.05 EUR + 0.95 EUR = 2.00 EUR
-    Neispravan zapis: Sok
-    Stavki: 5
-    Ukupno: 17.23 EUR
-    Najskuplje: Kava 7.99 EUR
-*/
