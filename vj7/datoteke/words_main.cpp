@@ -25,7 +25,7 @@ int main()
 {
 	ifstream in("tekst.txt");
 	if (!in) {
-		cout << "Datoteka tekst.txt ne postoji\n";
+		cout << "Datoteka ne postoji!!\n";
 		return 1;
 	}
 
@@ -38,7 +38,7 @@ int main()
 		++freq[w];
 	}
 
-	cout << "razlicitih rijeci: " << freq.size() << '\n';
+	cout << "broj razlicitih rijeci: " << freq.size() << '\n';
 	cout << "alice: " << freq["alice"] << '\n';
 
 	vector<WordCount> v;
