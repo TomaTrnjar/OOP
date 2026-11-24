@@ -1,19 +1,42 @@
-// Vjezba 7, zadatak 4: napisite klasu Inventory iznad funkcije show.
-
 #include <iostream>
 #include <string>
 #include <vector>
+using namespace std;
 
-// ovdje napisite klasu Inventory
+class Inventory {
+	vector<string> items;
+	size_t kapacitet;
+public:
+	Inventory(size_t kap) {
+		kapacitet = kap;
+	}
+	Inventory& operator+=(const string& item) {
+		if (items.size() < kapacitet)
+			items.push_back(item);
+		return *this;
+	}
+	string& operator[](size_t i) {
+		return items[i];
+	}
+	const string& operator[](size_t i) const {
+		return items[i];
+	}
+	size_t size() const {
+		return items.size();
+	}
+	explicit operator bool() const {
+		return !items.empty();
+	}
+};
 
 void show(const Inventory& inv)
 {
     if (!inv) {
-        std::cout << "prazno\n";
+        cout << "prazno\n";
         return;
     }
-    for (std::size_t i = 0; i < inv.size(); ++i)
-        std::cout << i << ": " << inv[i] << '\n';
+    for (size_t i = 0; i < inv.size(); ++i)
+        cout << i << ": " << inv[i] << '\n';
 }
 
 int main()
@@ -24,24 +47,13 @@ int main()
     bag += "mac";
     bag += "stit";
     bag += "kljuc";
-    bag += "baklja";          // ne stane
+    bag += "baklja";
     show(bag);
 
     bag[0] = "zlatni mac";
-    std::cout << bag[0] << ' ' << bag.size() << '\n';
+    cout << bag[0] << ' ' << bag.size() << '\n';
 
     if (bag)
-        std::cout << "ima predmeta\n";
+        cout << "ima predmeta\n";
     return 0;
 }
-
-/*
-Ocekivani ispis:
-
-    prazno
-    0: mac
-    1: stit
-    2: kljuc
-    zlatni mac 3
-    ima predmeta
-*/
